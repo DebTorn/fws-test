@@ -4,3 +4,4 @@
 #### @tbence
 - Added new tables: `categories`, `products`, `products_categories`
 - Added new models: `Category`, `Product`
+- Added `service-repository` layers
