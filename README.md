@@ -19,7 +19,7 @@ This task was prepared for FWS Online Ltd.
 
 2. Install sail with `composer`
     ```batch
-    composer require laravel/sail --dev
+    composer install
     ```
 
 2. Start `sail` docker containers with the following command:
