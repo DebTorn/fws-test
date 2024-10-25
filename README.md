@@ -15,7 +15,12 @@ This task was prepared for FWS Online Ltd.
 
 ## 💾 Installation 💾
 
-1. Create `.env` file based on `.env.example`. Pay close attention to the instructions which marked with **"TODO"**!
+1. Create `.env` file based on `.env.example`.
+
+2. Install sail with `composer`
+    ```batch
+    composer require laravel/sail --dev
+    ```
 
 2. Start `sail` docker containers with the following command:
     ```batch
@@ -24,7 +29,7 @@ This task was prepared for FWS Online Ltd.
 
 3. Jump into `container` shell:
     ```batch
-    docker exec -it todo-list-todo-app-1 /bin/bash
+    docker exec -it <your_sail_container> /bin/bash
     ```
 
 4. Install `composer` packages within the `container`:
@@ -40,9 +45,12 @@ This task was prepared for FWS Online Ltd.
 6. Run  `migrations` with seeder in the `container` shell:
     ```batch
     php artisan migrate
+    exit
     ```
 
-7. Regenerate `container` in the base shell:
+7. Copy the `csv` file to the `storage/application/private` folder with the name set in the `CSV_FILE_NAME` .env variable
+
+8. Regenerate `container` in the base shell:
     ```batch
     ./vendor/bin/sail down
     ./vendor/bin/sail up -d --build
