@@ -5,6 +5,8 @@
 - Added CSV import process
 - Added chunk based CSV import
 - Implemented Redis for job cache
+- Added XML export process
+- Added chunk based XML export
 
 ### 2024. 10. 24.
 #### @tbence
