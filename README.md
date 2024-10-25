@@ -68,10 +68,17 @@ The header's `Content-type` parameter is mostly `application/json`. If it's not,
 ### Import
 This endpoint triggers the CSV import process.
 
-Before triggering the import process, copy the `csv` file into the `storage/app/private` folder and set the `csv` name in the `.env` file.
+Before triggering the import process, copy the `CSV_FILE_NAME` file into the `storage/app/private` folder and set the `csv` name in the `.env` file.
 
 *Type*: **POST**
 *URI*: `/api/import`
 *Response format*: `JSON`
 
 ### Export
+This endpoint triggers the XML export process.
+
+Before triggering the export process, set the `XML_FILE_NAME` name in the `.env` file.
+
+*Type*: **GET**
+*URI*: `/api/export`
+*Response format*: `JSON`

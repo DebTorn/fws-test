@@ -3,11 +3,13 @@
 namespace App\Services;
 
 use App\Jobs\ImportCSVChunkJob;
+use App\Models\Product;
 use App\Services\Interfaces\ICategoryService;
 use App\Services\Interfaces\IDocumentService;
 use App\Services\Interfaces\IProductService;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use SimpleXMLElement;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class DocumentService implements IDocumentService
@@ -57,5 +59,29 @@ class DocumentService implements IDocumentService
     /**
      * Export products to XML file
      */
-    public function export() {}
+    public function export()
+    {
+        $xml = new SimpleXMLElement('<?xml version="1.0" encoding="UTF-8"?><products></products>');
+
+        Product::with('categories')->chunk(1000, function ($products) use ($xml) {
+            foreach ($products as $product) {
+                $productNode = $xml->addChild('product');
+                $productNode->addChild('title', htmlspecialchars($product->title));
+                $productNode->addChild('price', $product->gross_price);
+
+                $categoriesNode = $productNode->addChild('categories');
+                foreach ($product->categories as $category) {
+                    $categoriesNode->addChild('category', htmlspecialchars($category->title));
+                }
+            }
+        });
+
+        $xmlString = $xml->asXML();
+        Storage::disk('public')->put('products.xml', $xmlString);
+
+        return [
+            'message' => 'XML file exported successfully',
+            'file_path' => storage_path('app/public/products.xml')
+        ];
+    }
 }
