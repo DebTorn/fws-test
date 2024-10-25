@@ -123,4 +123,6 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
+    'csv_file_name' => env('CSV_FILE_NAME', 'termekek.csv'),
+
 ];
