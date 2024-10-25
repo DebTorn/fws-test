@@ -32,11 +32,6 @@ class ProductRepository implements IProductRepository
         return Product::find($id)->update($data);
     }
 
-    public function delete(int $id)
-    {
-        return Product::destroy($id);
-    }
-
     public function findProductCategoryIds(int $productId)
     {
         $product = Product::find($productId);

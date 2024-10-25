@@ -54,11 +54,6 @@ class ProductService implements IProductService
         return $this->productRepository->update($id, $data);
     }
 
-    public function delete(int $id)
-    {
-        return $this->productRepository->delete($id);
-    }
-
     public function getProductCategoryIds(int $productId)
     {
         return $this->productRepository->findProductCategoryIds($productId);

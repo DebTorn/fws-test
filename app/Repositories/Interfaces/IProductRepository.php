@@ -9,6 +9,5 @@ interface IProductRepository
     public function findByTitle(string $title);
     public function insert(array $data);
     public function update(int $id, array $data);
-    public function delete(int $id);
     public function findProductCategoryIds(int $productId);
 }

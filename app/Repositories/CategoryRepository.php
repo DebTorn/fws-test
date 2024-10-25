@@ -30,16 +30,6 @@ class CategoryRepository implements ICategoryRepository
         return Category::create($data);
     }
 
-    public function update(int $id, array $data)
-    {
-        return Category::find($id)->update($data);
-    }
-
-    public function delete(int $id)
-    {
-        return Category::destroy($id);
-    }
-
     public function attachProduct(Category $category, Product $product)
     {
         $category->products()->attach($product->id);

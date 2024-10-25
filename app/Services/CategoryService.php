@@ -44,16 +44,6 @@ class CategoryService implements ICategoryService
         return $this->categoryRepository->insert($data);
     }
 
-    public function update(int $id, array $data)
-    {
-        return $this->categoryRepository->update($id, $data);
-    }
-
-    public function delete(int $id)
-    {
-        return $this->categoryRepository->delete($id);
-    }
-
     public function attachProduct(int $categoryId, int $productId)
     {
 

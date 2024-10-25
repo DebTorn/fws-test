@@ -9,6 +9,5 @@ interface IProductService
     public function getByTitle(string $title);
     public function insert(array $data);
     public function update(int $id, array $data);
-    public function delete(int $id);
     public function getProductCategoryIds(int $productId);
 }
