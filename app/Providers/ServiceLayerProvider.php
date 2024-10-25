@@ -19,6 +19,11 @@ class ServiceLayerProvider extends ServiceProvider
             \App\Services\Interfaces\ICategoryService::class,
             \App\Services\CategoryService::class
         );
+
+        $this->app->bind(
+            \App\Services\Interfaces\IDocumentService::class,
+            \App\Services\DocumentService::class
+        );
     }
 
     /**

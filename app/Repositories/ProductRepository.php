@@ -12,9 +12,14 @@ class ProductRepository implements IProductRepository
         return Product::all();
     }
 
-    public function getById(int $id)
+    public function findById(int $id)
     {
         return Product::find($id);
+    }
+
+    public function findByTitle(string $title)
+    {
+        return Product::where('title', $title)->first();
     }
 
     public function insert(array $data)
@@ -30,5 +35,16 @@ class ProductRepository implements IProductRepository
     public function delete(int $id)
     {
         return Product::destroy($id);
+    }
+
+    public function findProductCategoryIds(int $productId)
+    {
+        $product = Product::find($productId);
+
+        if (!$product) {
+            return [];
+        }
+
+        return $product->categories->pluck('id')->toArray();
     }
 }

@@ -3,7 +3,10 @@
 namespace App\Repositories;
 
 use App\Models\Category;
+use App\Models\Product;
 use App\Repositories\Interfaces\ICategoryRepository;
+
+use function Symfony\Component\String\b;
 
 class CategoryRepository implements ICategoryRepository
 {
@@ -12,9 +15,14 @@ class CategoryRepository implements ICategoryRepository
         return Category::all();
     }
 
-    public function getById(int $id)
+    public function findById(int $id)
     {
         return Category::find($id);
+    }
+
+    public function findByTitle(string $title)
+    {
+        return Category::where('title', $title)->first();
     }
 
     public function insert(array $data)
@@ -30,5 +38,15 @@ class CategoryRepository implements ICategoryRepository
     public function delete(int $id)
     {
         return Category::destroy($id);
+    }
+
+    public function attachProduct(Category $category, Product $product)
+    {
+        $category->products()->attach($product->id);
+    }
+
+    public function detachProduct(Category $category, Product $product)
+    {
+        $category->products()->detach($product->id);
     }
 }
