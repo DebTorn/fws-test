@@ -9,7 +9,7 @@ This task was prepared for FWS Online Ltd.
 ## :rocket: Features :rocket:
 
 - :bulb: Sync DB from CSV
-- :bulb: Download products as XML
+- :bulb: Export products as XML
 
 ---
 
