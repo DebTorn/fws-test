@@ -68,17 +68,36 @@ The header's `Content-type` parameter is mostly `application/json`. If it's not,
 ### Import
 This endpoint triggers the CSV import process.
 
-Before triggering the import process, copy the `CSV_FILE_NAME` file into the `storage/app/private` folder and set the `csv` name in the `.env` file.
+**Before** triggering the import process, copy the `CSV_FILE_NAME` file into the `storage/app/private` folder and set the `csv` name in the `.env` file.
 
 *Type*: **POST**
 *URI*: `/api/import`
 *Response format*: `JSON`
 
+**After triggered**
+```json
+{
+	"message": "CSV import already in progress"
+}
+```
+
+:warning: **IMPORTANT:** :warning: After triggered the import you an check the process status in `storage/logs/laravel.log`. In this file you an see the current chunk and when the process finished.
+
 ### Export
 This endpoint triggers the XML export process.
 
-Before triggering the export process, set the `XML_FILE_NAME` name in the `.env` file.
+**Before** triggering the export process, set the `XML_FILE_NAME` name in the `.env` file.
+
+In the end of the process you can check the file in `storage/app/public` folder.
 
 *Type*: **GET**
 *URI*: `/api/export`
 *Response format*: `JSON`
+
+**Response when XML created**
+```json
+{
+	"message": "XML file exported successfully",
+	"file_path": "/var/www/html/storage/app/public/xy.xml"
+}
+```

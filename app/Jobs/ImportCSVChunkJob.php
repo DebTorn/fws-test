@@ -49,6 +49,7 @@ class ImportCSVChunkJob implements ShouldQueue
 
         if ($remainingChunks <= 0) {
             Redis::del('document:csv:importing');
+            Redis::del('document:csv:remaining_chunks');
             Log::info('All chunks dispatched! CSV file import finished');
         }
     }
