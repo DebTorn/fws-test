@@ -8,6 +8,7 @@ use App\Services\Interfaces\ICategoryService;
 use App\Services\Interfaces\IDocumentService;
 use App\Services\Interfaces\IProductService;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Storage;
 use SimpleXMLElement;
 use Symfony\Component\HttpKernel\Exception\HttpException;
@@ -43,10 +44,11 @@ class DocumentService implements IDocumentService
         $chunkSize = 100;
         $chunks = array_chunk($rows, $chunkSize);
         $maxChunks = count($chunks);
+        Redis::set('document:csv:remaining_chunks', $maxChunks);
         $chunksCount = 1;
 
         foreach ($chunks as $chunk) {
-            ImportCSVChunkJob::dispatch($chunk, $this->categoryIndexes, $this->categoryService, $this->productService, $chunksCount, $maxChunks);
+            ImportCSVChunkJob::dispatch($chunk, $this->categoryIndexes, $this->categoryService, $this->productService, $chunksCount);
             $chunksCount++;
         }
 

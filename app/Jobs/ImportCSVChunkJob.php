@@ -19,7 +19,6 @@ class ImportCSVChunkJob implements ShouldQueue
     protected array $chunk;
     protected array $categoryIndexes;
     protected int $chunksCount;
-    protected int $maxChunks;
     private ICategoryService $categoryService;
     private IProductService $productService;
 
@@ -28,12 +27,10 @@ class ImportCSVChunkJob implements ShouldQueue
         array $categoryIndexes,
         ICategoryService $categoryService,
         IProductService $productService,
-        int $chunksCount,
-        int $maxChunks
+        int $chunksCount
     ) {
         $this->chunk = $chunk;
         $this->chunksCount = $chunksCount;
-        $this->maxChunks = $maxChunks;
         $this->categoryIndexes = $categoryIndexes;
         $this->categoryService = $categoryService;
         $this->productService = $productService;
@@ -48,9 +45,11 @@ class ImportCSVChunkJob implements ShouldQueue
         $this->processRows($this->chunk);
         Log::info("Chunk #" . $this->chunksCount . " ended");
 
-        if ($this->chunksCount == $this->maxChunks) {
-            Log::info('All chunks dispatched! CSV file import finished');
+        $remainingChunks = Redis::decr('document:csv:remaining_chunks');
+
+        if ($remainingChunks <= 0) {
             Redis::del('document:csv:importing');
+            Log::info('All chunks dispatched! CSV file import finished');
         }
     }
 
