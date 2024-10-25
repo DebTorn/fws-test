@@ -10,6 +10,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Redis;
 
 class ImportCSVChunkJob implements ShouldQueue
 {
@@ -18,7 +19,6 @@ class ImportCSVChunkJob implements ShouldQueue
     protected array $chunk;
     protected array $categoryIndexes;
     protected int $chunksCount;
-    protected int $maxChunks;
     private ICategoryService $categoryService;
     private IProductService $productService;
 
@@ -27,12 +27,10 @@ class ImportCSVChunkJob implements ShouldQueue
         array $categoryIndexes,
         ICategoryService $categoryService,
         IProductService $productService,
-        int $chunksCount,
-        int $maxChunks
+        int $chunksCount
     ) {
         $this->chunk = $chunk;
         $this->chunksCount = $chunksCount;
-        $this->maxChunks = $maxChunks;
         $this->categoryIndexes = $categoryIndexes;
         $this->categoryService = $categoryService;
         $this->productService = $productService;
@@ -47,7 +45,11 @@ class ImportCSVChunkJob implements ShouldQueue
         $this->processRows($this->chunk);
         Log::info("Chunk #" . $this->chunksCount . " ended");
 
-        if ($this->chunksCount == $this->maxChunks) {
+        $remainingChunks = Redis::decr('document:csv:remaining_chunks');
+
+        if ($remainingChunks <= 0) {
+            Redis::del('document:csv:importing');
+            Redis::del('document:csv:remaining_chunks');
             Log::info('All chunks dispatched! CSV file import finished');
         }
     }
