@@ -10,6 +10,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Redis;
 
 class ImportCSVChunkJob implements ShouldQueue
 {
@@ -49,6 +50,7 @@ class ImportCSVChunkJob implements ShouldQueue
 
         if ($this->chunksCount == $this->maxChunks) {
             Log::info('All chunks dispatched! CSV file import finished');
+            Redis::del('document:csv:importing');
         }
     }
 
