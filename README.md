@@ -1,6 +1,6 @@
 # FWS test task
 
-[![Tech stack](https://skillicons.dev/icons?i=php,laravel,mysql,docker)](https://skillicons.dev)
+[![Tech stack](https://skillicons.dev/icons?i=php,laravel,mysql,docker,redis)](https://skillicons.dev)
 
 This task was prepared for FWS Online Ltd.
 
