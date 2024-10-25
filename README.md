@@ -78,7 +78,7 @@ This endpoint triggers the CSV import process.
 
 **Before** triggering the import process, copy the `CSV_FILE_NAME` file into the `storage/app/private` folder and set the `csv` name in the `.env` file.
 
-*URI*: [**POST**] `/api/import`
+[**POST**] `/api/import`
 *Response format*: `JSON`
 
 **After triggered**
@@ -97,7 +97,7 @@ This endpoint triggers the XML export process.
 
 In the end of the process you can check the file in `storage/app/public` folder.
 
-*URI*: [**GET**] `/api/export`
+[**GET**] `/api/export`
 *Response format*: `JSON`
 
 **Response when XML created**
